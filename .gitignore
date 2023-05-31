@@ -412,4 +412,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 #Appsetting.Development.json
-/appsettings.Development.json
+/FullStack.API/appsettings.Development.json
