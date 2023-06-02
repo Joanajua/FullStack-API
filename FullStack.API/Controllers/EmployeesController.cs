@@ -27,11 +27,23 @@ namespace FullStack.API.Controllers
         [HttpPost]
         public async Task<IActionResult> AddEmployee([FromBody] Employee employeeRequest)
         {
-            //employeeRequest.Id = Guid.NewGuid();
+            employeeRequest.Id = Guid.NewGuid();
             await _fullStackDbContext.Employees.AddAsync(employeeRequest);
             await _fullStackDbContext.SaveChangesAsync();
 
             return Ok(employeeRequest);
+        }
+
+        [HttpGet]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> GetEmployeeById([FromRoute]Guid id)
+        {
+            var employee = await _fullStackDbContext.Employees.FirstOrDefaultAsync(e => e.Id == id);
+
+            if (employee is null)
+                return NotFound();
+
+            return Ok(employee);
         }
     }
 }
