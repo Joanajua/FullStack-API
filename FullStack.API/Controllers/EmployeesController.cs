@@ -64,7 +64,23 @@ namespace FullStack.API.Controllers
             employee.Department = employeeRequest.Department;
 
             _fullStackDbContext.Employees.Update(employee);
+            await _fullStackDbContext.SaveChangesAsync();
 
+            return Ok(employee);
+        }
+
+        [HttpDelete]
+        [Route("{id:Guid}")]
+        public async Task<IActionResult> DeleteEmployee([FromRoute] Guid id)
+        {
+            var employee = await _fullStackDbContext.Employees.FindAsync(id);
+
+            if (employee is null)
+            {
+                return NotFound();
+            }
+
+            _fullStackDbContext.Employees.Remove(employee);
             await _fullStackDbContext.SaveChangesAsync();
 
             return Ok(employee);
